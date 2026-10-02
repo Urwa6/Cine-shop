@@ -1,7 +1,22 @@
 import { Text, View, Button } from 'react-native';
 import styles from '../styles/Home';
 
+import { useEffect} from 'react';
+import { getPopularMovies } from '../api/tmdb';
+
 export default function Home({ navigation}) {
+    useEffect(() => {
+        async function loadMovies() {
+            try {
+                const movies = await getPopularMovies();
+                console.log('Popular Movies:', movies);
+            } catch (error) {
+                console.error('Error fetching popular movies:', error);
+            }
+        }
+
+        loadMovies();
+    }, []);
     return (
         <View style={styles.container}>
         <Text style={styles.title} >Cine Shop</Text>
