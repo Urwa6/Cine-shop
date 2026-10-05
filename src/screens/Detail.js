@@ -1,4 +1,4 @@
-import {Text,View} from 'react-native';
+import {Text,View, Image} from 'react-native';
 import { useEffect, useState } from 'react';
 
 import styles from '../styles/Detail';
@@ -32,6 +32,12 @@ export default function Detail({ route }) {
         <Text>Movie ID: {movieId}</Text>
         {movie && (
             <View>
+                <Image
+                style={styles.poster}
+                source={{ 
+                    uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+              }}
+                />  
                 <Text style={styles.movieTitle}>{movie.title}</Text>
                 <Text>Release Date: {movie.release_date}</Text>
                 <Text>Rating: ⭐ {movie.vote_average.toFixed(1)}</Text>
