@@ -1,4 +1,4 @@
-import { Text, FlatList, View, Button } from 'react-native';
+import { Text, FlatList, View, Button, Image } from 'react-native';
 import styles from '../styles/Home';
 
 import { useEffect, useState } from 'react';
@@ -35,6 +35,11 @@ export default function Home({ navigation}) {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
             <View>
+                <Image
+                style={styles.poster}
+                source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+             }}
+         />  
                 <Text>{item.title}</Text>
             </View>
         )}

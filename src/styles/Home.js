@@ -28,6 +28,11 @@ const styles = StyleSheet.create({
         color: '#999',
         lineHeight: 24,
     },
+    poster: {
+        width: 150,
+        height: 225,
+        borderRadius: 8,
+    },
 });
 
 export default styles;
