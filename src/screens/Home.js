@@ -1,4 +1,4 @@
-import { Text, FlatList, View, Button, Image } from 'react-native';
+import { Text, FlatList, View, Button, Image, Pressable} from 'react-native';
 import styles from '../styles/Home';
 
 import { useEffect, useState } from 'react';
@@ -34,6 +34,9 @@ export default function Home({ navigation}) {
         data={movies}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
+            <Pressable
+             onPress={() => navigation.navigate('Detail', { movieId: item.id })}
+            >
             <View>
                 <Image
                 style={styles.poster}
@@ -41,9 +44,11 @@ export default function Home({ navigation}) {
              }}
          />  
                 <Text>{item.title}</Text>
+                <Text>⭐ {item.vote_average.toFixed(1)}</Text>
             </View>
-        )}
-        />  
+         </Pressable>
+         )}
+        />
 
         <Button
         title="Go to Movie Detail"
