@@ -1,14 +1,16 @@
-import { Text, View, Button } from 'react-native';
+import { Text, FlatList, View, Button } from 'react-native';
 import styles from '../styles/Home';
 
-import { useEffect} from 'react';
+import { useEffect, useState } from 'react';
 import { getPopularMovies } from '../api/tmdb';
 
 export default function Home({ navigation}) {
+    const [movies, setMovies] = useState([]);
     useEffect(() => {
         async function loadMovies() {
             try {
                 const movies = await getPopularMovies();
+                setMovies(movies);
                 console.log('Popular Movies:', movies);
             } catch (error) {
                 console.error('Error fetching popular movies:', error);
@@ -27,6 +29,16 @@ export default function Home({ navigation}) {
             Browse movies, explore details & add your favorites to your cart.
             Enjoy a seamless movie experience with Cine Shop!
         </Text>
+
+        <FlatList
+        data={movies}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+            <View>
+                <Text>{item.title}</Text>
+            </View>
+        )}
+        />  
 
         <Button
         title="Go to Movie Detail"
