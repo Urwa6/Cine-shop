@@ -52,7 +52,14 @@ export default function Home({ navigation}) {
 
         <Button
         title="Go to Movie Detail"
-        onPress={() => navigation.navigate('Detail')}
+        onPress={() => {
+            if (movies.length > 0) {
+                navigation.navigate('Detail', { 
+                    movieId: movies[0].id,
+                });
+           }
+         }}
+           
         />
         
         <Button
