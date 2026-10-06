@@ -44,6 +44,12 @@ const styles = StyleSheet.create({
         color: '#007AFF',
         marginBottom: 12,
     },
+    confirmation: {
+        fontSize: 16,
+        color: 'green',
+        marginTop: 10,
+        fontWeight: '600',
+    },
 });
 
 export default styles;
