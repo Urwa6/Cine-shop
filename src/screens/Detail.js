@@ -6,6 +6,17 @@ import styles from '../styles/Detail';
 import { getMovieDetails } from '../api/tmdb';
 
 
+function calculatePrice(movie) {
+    const rating = movie.vote_average;
+    if (rating >= 8) {
+        return 199; // SEK
+    } 
+    if (rating >= 7) {
+        return 169; // SEK
+    }
+    return 129; // SEK
+}
+
 export default function Detail({ route }) {
     const { movieId } = route.params;
 
@@ -41,6 +52,8 @@ export default function Detail({ route }) {
                 <Text style={styles.movieTitle}>{movie.title}</Text>
                 <Text>Release Date: {movie.release_date}</Text>
                 <Text>Rating: ⭐ {movie.vote_average.toFixed(1)}</Text>
+                <Text style={styles.price}>Price: {calculatePrice(movie)} SEK
+                </Text>
                 <Text style={styles.overview}>{movie.overview}</Text>
             </View>
         )}  

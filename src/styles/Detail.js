@@ -37,7 +37,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#666',
         lineHeight: 22,
-    },      
+    },
+    price: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#007AFF',
+        marginBottom: 12,
+    },
 });
 
 export default styles;
