@@ -20,6 +20,30 @@ const styles = StyleSheet.create({
         color: '#999',
         lineHeight: 24,
     },
+    poster: {
+        width: 200,
+        height: 300,
+        borderRadius: 8,
+        marginBottom: 12,
+    },
+    movieTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 8,
+        color: '#333',
+    },
+    overview: {
+        fontSize: 16,
+        textAlign: 'center',
+        color: '#666',
+        lineHeight: 22,
+    },
+    price: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#007AFF',
+        marginBottom: 12,
+    },
 });
 
 export default styles;
