@@ -65,6 +65,41 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#007AFF',
     },  
+    quantityContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 8,
+    },
+    quantityButton: {
+        width: 32,
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#007AFF',
+        borderRadius: 4,
+    },
+    quantityButtonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    quantity: {
+        marginHorizontal: 12,
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    removeButton: {
+        marginTop: 8,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        backgroundColor: '#FF3B30',
+        borderRadius: 4,
+    },
+    removeButtonText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: '600',
+    },
 });
 
 export default styles;
