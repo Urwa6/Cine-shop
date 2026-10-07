@@ -1,9 +1,11 @@
-import {Text,View, Image} from 'react-native';
+import {Text,View, Image, Button} from 'react-native';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import styles from '../styles/Detail';
 
 import { getMovieDetails } from '../api/tmdb';
+import { addToCart } from '../store/cartSlice';
 
 
 function calculatePrice(movie) {
@@ -21,6 +23,9 @@ export default function Detail({ route }) {
     const { movieId } = route.params;
 
     const [movie, setMovie] = useState(null);
+    //Add movie to the cart using redux dispatch
+    const dispatch = useDispatch();
+    const [addedToCart, setAddedToCart] = useState(false);
 
     useEffect(() => {
         async function loadMovie() {
@@ -55,10 +60,23 @@ export default function Detail({ route }) {
                 <Text style={styles.price}>Price: {calculatePrice(movie)} SEK
                 </Text>
                 <Text style={styles.overview}>{movie.overview}</Text>
+                <Button
+                title="Add to Cart"
+                onPress={() => {
+                    dispatch(
+                        addToCart({
+                        id: movie.id,
+                        title: movie.title,
+                        price: calculatePrice(movie),
+                        poster_path: movie.poster_path,
+                    }));
+                    setAddedToCart(true);
+                }}
+                />
+                {addedToCart && <Text style={styles.confirmation}>
+                    Added to cart!</Text>}
             </View>
-        )}  
-
-
+        )}
         <Text style={styles.description} >
             Discover cast, crew, synopsis, and more. Dive deep into the world of cinema with Cine Shop!
         </Text>
