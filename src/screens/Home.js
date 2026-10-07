@@ -1,4 +1,5 @@
-import { Text, FlatList, View, Button, Image, Pressable, ImageBackground} from 'react-native';
+import { Text, FlatList, View, Button, Image, Pressable, ImageBackground } from 'react-native';
+import AppHeader from '../components/AppHeader';
 import styles from '../styles/Home';
 
 import { useEffect, useState } from 'react';
@@ -21,6 +22,7 @@ export default function Home({ navigation}) {
     }, []);
     return (
         <View style={styles.container}>
+            <AppHeader />
             {movies.length > 0 && (
   <Pressable
     style={styles.hero}
@@ -69,9 +71,14 @@ export default function Home({ navigation}) {
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
             <Pressable
-            style={styles.movieCard}
-             onPress={() => navigation.navigate('Detail', { movieId: item.id })}
-            >
+             style={({ pressed }) => [
+              styles.movieCard,
+              pressed && styles.movieCardPressed,
+     ]}
+            onPress={() =>
+            navigation.navigate('Detail', { movieId: item.id })
+          }
+    >
             <View>
                 <Image
                 style={styles.poster}
