@@ -1,4 +1,4 @@
-import { Text, FlatList, View, Button, Image, Pressable} from 'react-native';
+import { Text, FlatList, View, Button, Image, Pressable, ImageBackground} from 'react-native';
 import styles from '../styles/Home';
 
 import { useEffect, useState } from 'react';
@@ -21,20 +21,55 @@ export default function Home({ navigation}) {
     }, []);
     return (
         <View style={styles.container}>
-        <Text style={styles.title} >Cine Shop</Text>
+            {movies.length > 0 && (
+  <Pressable
+    style={styles.hero}
+    onPress={() =>
+      navigation.navigate('Detail', { movieId: movies[0].id })
+    }
+  >
+    <ImageBackground
+      source={{
+        uri: `https://image.tmdb.org/t/p/w780${movies[0].backdrop_path}`,
+      }}
+      style={styles.heroImage}
+      imageStyle={styles.heroImageStyle}
+    >
+      <View style={styles.heroOverlay}>
+        <Text style={styles.heroLabel}>FEATURED MOVIE</Text>
 
-        <Text style={styles.subtitle} >Your favorite movies, all in one place!</Text>
-
-        <Text style={styles.description} >
-            Browse movies, explore details & add your favorites to your cart.
-            Enjoy a seamless movie experience with Cine Shop!
+        <Text style={styles.heroTitle}>
+          {movies[0].title}
         </Text>
+
+        <Text style={styles.heroRating}>
+          ⭐ {movies[0].vote_average.toFixed(1)}
+        </Text>
+
+        <Text style={styles.heroButton}>
+          Explore Movie
+        </Text>
+      </View>
+    </ImageBackground>
+  </Pressable>
+)}
+
+<View style={styles.sectionHeader}>
+  <Text style={styles.sectionTitle}>Popular Movies</Text>
+
+  <Text style={styles.seeAll}>See All</Text>
+</View>
 
         <FlatList
         data={movies}
         keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        columnWrapperStyle={styles.row} 
+        contentContainerStyle={styles.movieList}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
             <Pressable
+            style={styles.movieCard}
              onPress={() => navigation.navigate('Detail', { movieId: item.id })}
             >
             <View>
@@ -43,8 +78,15 @@ export default function Home({ navigation}) {
                 source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
              }}
          />  
-                <Text>{item.title}</Text>
-                <Text>⭐ {item.vote_average.toFixed(1)}</Text>
+                <Text style={styles.movieTitle} numberOfLines={2}>
+                    {item.title}
+                </Text>
+                <Text style={styles.rating}>⭐ {item.vote_average.toFixed(1)}</Text>
+                <Text style={styles.releaseDate}>Release: {item.release_date}</Text>
+                <Text style={styles.price}>{item.vote_average >= 8
+                 ? '199 SEK': item.vote_average >= 7
+                 ? '169 SEK': '129 SEK'}
+                </Text>
             </View>
          </Pressable>
          )}
