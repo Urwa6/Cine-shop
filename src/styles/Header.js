@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 120,
-    height: 40,
+    width: 150,
+    height: 75,
     resizeMode: 'contain',  
     alignSelf: 'flex-start',
   },

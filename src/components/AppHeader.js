@@ -1,4 +1,5 @@
 import { Text, View , TextInput, Pressable, Image } from 'react-native';
+import {Ionicons} from '@expo/vector-icons';
 import styles from '../styles/Header';
 
 export default function Header() {
@@ -17,7 +18,7 @@ export default function Header() {
                 placeholderTextColor="#999"
             />
             <Pressable style={styles.searchButton}>
-                <Text style={styles.searchButtonText}>Search</Text>
+                <Ionicons name="search-outline" size={22} color="#fff" />
             </Pressable>
         
         </View>
