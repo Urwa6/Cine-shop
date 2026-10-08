@@ -3,10 +3,29 @@ import AppHeader from '../components/AppHeader';
 import styles from '../styles/Home';
 
 import { useEffect, useState } from 'react';
-import { getPopularMovies } from '../api/tmdb';
+import { getPopularMovies, searchMovies } from '../api/tmdb';
 
 export default function Home({ navigation}) {
     const [movies, setMovies] = useState([]);
+    const handleSearch = async (query) => {
+        if (query.trim() === '') {
+            // If the search query is empty, fetch popular movies again
+            try {
+                const popularMovies = await getPopularMovies();
+                setMovies(popularMovies);
+            } catch (error) {
+                console.error('Error fetching popular movies:', error);
+            }
+            return;
+        }
+
+        try {
+            const searchResults = await searchMovies(query);
+            setMovies(searchResults);
+        } catch (error) {
+            console.error('Error searching for movies:', error);
+        }
+    }
     useEffect(() => {
         async function loadMovies() {
             try {
@@ -22,7 +41,7 @@ export default function Home({ navigation}) {
     }, []);
     return (
         <View style={styles.container}>
-            <AppHeader />
+            <AppHeader onSearch={handleSearch} />
             {movies.length > 0 && (
   <Pressable
     style={styles.hero}
