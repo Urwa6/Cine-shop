@@ -1,10 +1,10 @@
-import {Text,View, Image, Button} from 'react-native';
+import {Text,View, Image, Button, Linking} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import styles from '../styles/Detail';
 
-import { getMovieDetails } from '../api/tmdb';
+import { getMovieDetails, getMovieVideos } from '../api/tmdb';
 import { addToCart } from '../store/cartSlice';
 
 
@@ -23,6 +23,7 @@ export default function Detail({ route }) {
     const { movieId } = route.params;
 
     const [movie, setMovie] = useState(null);
+    const [trailer, setTrailer] = useState(null);
     //Add movie to the cart using redux dispatch
     const dispatch = useDispatch();
     const [addedToCart, setAddedToCart] = useState(false);
@@ -32,6 +33,17 @@ export default function Detail({ route }) {
 
             try {
                 const movieData = await getMovieDetails(movieId);
+                const videos = await getMovieVideos(movieId);
+                const trailer = videos.find(video => 
+                    video.type === 'Trailer'&& 
+                    video.site === 'YouTube'&&
+                    video.official === true
+                );
+                setTrailer(trailer)
+
+                console.log('Movie videos:', videos);
+                console.log('Movie trailer:', trailer);
+                
                 setMovie(movieData);
             } catch (error) {
                 console.error('Error fetching movie details:', error);
@@ -73,10 +85,19 @@ export default function Detail({ route }) {
                     setAddedToCart(true);
                 }}
                 />
+                {trailer && (
+                    <Button
+                    title="Watch Trailer"
+                    onPress={() => {
+                    Linking.openURL(`https://www.youtube.com/watch?v=${trailer.key}`);
+                        }}
+                    />
+                )}
                 {addedToCart && <Text style={styles.confirmation}>
                     Added to cart!</Text>}
             </View>
         )}
+        
         <Text style={styles.description} >
             Discover cast, crew, synopsis, and more. Dive deep into the world of cinema with Cine Shop!
         </Text>
