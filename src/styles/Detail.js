@@ -50,6 +50,25 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontWeight: '600',
     },
+    trailer: {
+        width: '100%',
+        height: 220,
+        marginTop: 16,
+        borderRadius: 12,
+        overflow: 'hidden',
+},
+    trailerButton: {
+        backgroundColor: '#d32f2f',
+        paddingVertical: 14,
+        borderRadius: 10,
+        marginTop: 12,
+        alignItems: 'center',
+    },
+    trailerButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: '700',
+    },
 });
 
 export default styles;

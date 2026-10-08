@@ -1,6 +1,7 @@
-import {Text,View, Image, Button, Linking} from 'react-native';
+import {Text,View, Image, Button,Pressable} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import {WebView} from 'react-native-webview';
 
 import styles from '../styles/Detail';
 
@@ -11,12 +12,12 @@ import { addToCart } from '../store/cartSlice';
 function calculatePrice(movie) {
     const rating = movie.vote_average;
     if (rating >= 8) {
-        return 199; // SEK
+        return 199; 
     } 
     if (rating >= 7) {
-        return 169; // SEK
+        return 169; 
     }
-    return 129; // SEK
+    return 129; 
 }
 
 export default function Detail({ route }) {
@@ -24,6 +25,7 @@ export default function Detail({ route }) {
 
     const [movie, setMovie] = useState(null);
     const [trailer, setTrailer] = useState(null);
+    const [showTrailer, setShowTrailer] = useState(false);
     //Add movie to the cart using redux dispatch
     const dispatch = useDispatch();
     const [addedToCart, setAddedToCart] = useState(false);
@@ -86,13 +88,27 @@ export default function Detail({ route }) {
                 }}
                 />
                 {trailer && (
-                    <Button
-                    title="Watch Trailer"
-                    onPress={() => {
-                    Linking.openURL(`https://www.youtube.com/watch?v=${trailer.key}`);
+                  <Pressable 
+                    style={styles.trailerButton}
+                    onPress={() => setShowTrailer(true)}
+           >
+                 <Text style={styles.trailerButtonText}>
+                  ▶ Watch Trailer
+                 </Text>
+                  </Pressable>
+     )}
+                {showTrailer && trailer && (
+                    <WebView
+                        source={{ uri: `https://www.youtube.com/embed/${trailer.key}` 
                         }}
+                        style={styles.trailer}
+                        allowsFullScreenVideo
                     />
                 )}
+              
+               
+        
+        
                 {addedToCart && <Text style={styles.confirmation}>
                     Added to cart!</Text>}
             </View>
