@@ -1,4 +1,4 @@
-import {Text,View, Image, Button,Pressable} from 'react-native';
+import {Text,View, Image, Button,Pressable,ScrollView} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {WebView} from 'react-native-webview';
@@ -56,7 +56,13 @@ export default function Detail({ route }) {
     }, [movieId]);
 
     return (
-        <View style={styles.container}>
+        <ScrollView
+         style={styles.container}
+         contentContainerStyle={styles.contentContainer}
+         showsVerticalScrollIndicator={false}
+         nestedScrollEnabled
+         >
+
         <Text style={styles.title} >Movie Detail</Text>
 
         <Text>Movie ID: {movieId}</Text>
@@ -103,6 +109,7 @@ export default function Detail({ route }) {
                         }}
                         style={styles.trailer}
                         allowsFullScreenVideo
+                        nestedScrollEnabled
                     />
                 )}
               
@@ -117,6 +124,6 @@ export default function Detail({ route }) {
         <Text style={styles.description} >
             Discover cast, crew, synopsis, and more. Dive deep into the world of cinema with Cine Shop!
         </Text>
-        </View>
+        </ScrollView>
     );
     }
