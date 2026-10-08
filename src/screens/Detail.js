@@ -1,28 +1,31 @@
-import {Text,View, Image, Button} from 'react-native';
+import {Text,View, Image, Button,Pressable,ScrollView} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import {WebView} from 'react-native-webview';
 
 import styles from '../styles/Detail';
 
-import { getMovieDetails } from '../api/tmdb';
+import { getMovieDetails, getMovieVideos } from '../api/tmdb';
 import { addToCart } from '../store/cartSlice';
 
 
 function calculatePrice(movie) {
     const rating = movie.vote_average;
     if (rating >= 8) {
-        return 199; // SEK
+        return 199; 
     } 
     if (rating >= 7) {
-        return 169; // SEK
+        return 169; 
     }
-    return 129; // SEK
+    return 129; 
 }
 
 export default function Detail({ route }) {
     const { movieId } = route.params;
 
     const [movie, setMovie] = useState(null);
+    const [trailer, setTrailer] = useState(null);
+    const [showTrailer, setShowTrailer] = useState(false);
     //Add movie to the cart using redux dispatch
     const dispatch = useDispatch();
     const [addedToCart, setAddedToCart] = useState(false);
@@ -32,6 +35,17 @@ export default function Detail({ route }) {
 
             try {
                 const movieData = await getMovieDetails(movieId);
+                const videos = await getMovieVideos(movieId);
+                const trailer = videos.find(video => 
+                    video.type === 'Trailer'&& 
+                    video.site === 'YouTube'&&
+                    video.official === true
+                );
+                setTrailer(trailer)
+
+                console.log('Movie videos:', videos);
+                console.log('Movie trailer:', trailer);
+                
                 setMovie(movieData);
             } catch (error) {
                 console.error('Error fetching movie details:', error);
@@ -42,12 +56,18 @@ export default function Detail({ route }) {
     }, [movieId]);
 
     return (
-        <View style={styles.container}>
+        <ScrollView
+         style={styles.container}
+         contentContainerStyle={styles.contentContainer}
+         showsVerticalScrollIndicator={false}
+         nestedScrollEnabled
+         >
+
         <Text style={styles.title} >Movie Detail</Text>
 
         <Text>Movie ID: {movieId}</Text>
         {movie && (
-            <View>
+            <View style = {styles.movieSection}>
                 <Image
                 style={styles.poster}
                 source={{ 
@@ -55,8 +75,32 @@ export default function Detail({ route }) {
               }}
                 />  
                 <Text style={styles.movieTitle}>{movie.title}</Text>
-                <Text>Release Date: {movie.release_date}</Text>
+                <Text>Release Year: {movie.release_date?.slice(0,4)}</Text>
                 <Text>Rating: ⭐ {movie.vote_average.toFixed(1)}</Text>
+
+                {movie.runtime && (
+                    <Text>
+                        Runtime: {Math.floor(movie.runtime / 60)}h {
+                            movie.runtime % 60}m
+                    </Text>
+                )}
+
+                {movie.genres &&(
+                    <View style={styles.genreContainer}>
+                {movie.genres.map((genre) => (
+                    <View key={genre.id}
+                    style={styles.genreTag}
+                >
+                   <Text style={styles.genreText}>
+                    {genre.name}
+                   </Text>
+                </View>
+              ))}
+             </View>
+                )}
+                
+ 
+
                 <Text style={styles.price}>Price: {calculatePrice(movie)} SEK
                 </Text>
                 <Text style={styles.overview}>{movie.overview}</Text>
@@ -73,13 +117,37 @@ export default function Detail({ route }) {
                     setAddedToCart(true);
                 }}
                 />
+                {trailer && (
+                  <Pressable 
+                    style={styles.trailerButton}
+                    onPress={() => setShowTrailer(true)}
+           >
+                 <Text style={styles.trailerButtonText}>
+                  ▶ Watch Trailer
+                 </Text>
+                  </Pressable>
+     )}
+                {showTrailer && trailer && (
+                    <WebView
+                        source={{ uri: `https://www.youtube.com/embed/${trailer.key}` 
+                        }}
+                        style={styles.trailer}
+                        allowsFullScreenVideo
+                        nestedScrollEnabled
+                    />
+                )}
+              
+               
+        
+        
                 {addedToCart && <Text style={styles.confirmation}>
                     Added to cart!</Text>}
             </View>
         )}
+        
         <Text style={styles.description} >
             Discover cast, crew, synopsis, and more. Dive deep into the world of cinema with Cine Shop!
         </Text>
-        </View>
+        </ScrollView>
     );
     }
