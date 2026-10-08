@@ -2,7 +2,7 @@ import { Text, View , TextInput, Pressable, Image } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import styles from '../styles/Header';
 
-export default function Header() {
+export default function Header({onSearch}) {
     return (
         <View style={styles.container}>
             <Image 
@@ -16,6 +16,7 @@ export default function Header() {
                 style={styles.searchInput}
                 placeholder="Search for movies..."
                 placeholderTextColor="#999"
+                onChangeText={onSearch}
             />
             <Pressable style={styles.searchButton}>
                 <Ionicons name="search-outline" size={22} color="#fff" />
