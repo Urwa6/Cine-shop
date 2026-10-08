@@ -67,7 +67,7 @@ export default function Detail({ route }) {
 
         <Text>Movie ID: {movieId}</Text>
         {movie && (
-            <View>
+            <View style = {styles.movieSection}>
                 <Image
                 style={styles.poster}
                 source={{ 
@@ -75,8 +75,32 @@ export default function Detail({ route }) {
               }}
                 />  
                 <Text style={styles.movieTitle}>{movie.title}</Text>
-                <Text>Release Date: {movie.release_date}</Text>
+                <Text>Release Year: {movie.release_date?.slice(0,4)}</Text>
                 <Text>Rating: ⭐ {movie.vote_average.toFixed(1)}</Text>
+
+                {movie.runtime && (
+                    <Text>
+                        Runtime: {Math.floor(movie.runtime / 60)}h {
+                            movie.runtime % 60}m
+                    </Text>
+                )}
+
+                {movie.genres &&(
+                    <View style={styles.genreContainer}>
+                {movie.genres.map((genre) => (
+                    <View key={genre.id}
+                    style={styles.genreTag}
+                >
+                   <Text style={styles.genreText}>
+                    {genre.name}
+                   </Text>
+                </View>
+              ))}
+             </View>
+                )}
+                
+ 
+
                 <Text style={styles.price}>Price: {calculatePrice(movie)} SEK
                 </Text>
                 <Text style={styles.overview}>{movie.overview}</Text>
