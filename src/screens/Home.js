@@ -7,12 +7,14 @@ import { getPopularMovies, searchMovies } from '../api/tmdb';
 
 export default function Home({ navigation}) {
     const [movies, setMovies] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
     const handleSearch = async (query) => {
         if (query.trim() === '') {
             // If the search query is empty, fetch popular movies again
             try {
                 const popularMovies = await getPopularMovies();
                 setMovies(popularMovies);
+                setIsSearching(false);
             } catch (error) {
                 console.error('Error fetching popular movies:', error);
             }
@@ -22,6 +24,7 @@ export default function Home({ navigation}) {
         try {
             const searchResults = await searchMovies(query);
             setMovies(searchResults);
+            setIsSearching(true);
         } catch (error) {
             console.error('Error searching for movies:', error);
         }
@@ -42,7 +45,8 @@ export default function Home({ navigation}) {
     return (
         <View style={styles.container}>
             <AppHeader onSearch={handleSearch} />
-            {movies.length > 0 && (
+            {!isSearching && movies.length > 0 && (
+    
   <Pressable
     style={styles.hero}
     onPress={() =>
@@ -76,10 +80,15 @@ export default function Home({ navigation}) {
 )}
 
 <View style={styles.sectionHeader}>
-  <Text style={styles.sectionTitle}>Popular Movies</Text>
+  <Text style={styles.sectionTitle}>
+    {isSearching ? 'Search Results' : 'Popular Movies'}
+  </Text>
 
   <Text style={styles.seeAll}>See All</Text>
 </View>
+{isSearching && movies.length === 0 && (
+  <Text style={styles.noResults}>No movies found.</Text>
+)}
 
         <FlatList
         data={movies}
