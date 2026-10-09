@@ -38,3 +38,16 @@ export async function searchMovies(query) {
     const data = await response.json();
     return data.results;
 } 
+
+export async function getMovieVideos(movieId) {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${TMDB_API_KEY}&language=en-US`
+  );
+
+  if (!response.ok) {
+    throw new Error(`TMDB videos request failed: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.results;
+}

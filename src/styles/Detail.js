@@ -2,11 +2,13 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
+        flexGrow: 1,
+        backgroundColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 24,
+        paddingHorizontal: 16,
+        paddingTop: 20,
+        paddingBottom: 30,
     },
     title: {
         fontSize: 28,
@@ -49,6 +51,20 @@ const styles = StyleSheet.create({
         color: 'green',
         marginTop: 10,
         fontWeight: '600',
+    },
+    sectionTitle: {
+        color: '#FFFFFF',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginTop: 24,
+        marginBottom: 12,
+    },
+
+    trailer: {
+        height: 240,
+        width: '100%',
+        backgroundColor: '#000000',
+        marginBottom: 20,
     },
 });
 
