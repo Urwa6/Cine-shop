@@ -2,12 +2,13 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        padding: 20,
-    },
-    contentContainer: {
-        paddingBottom: 40,
+        flexGrow: 1,
+        backgroundColor: 'transparent',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 16,
+        paddingTop: 20,
+        paddingBottom: 30,
     },
     title: {
         fontSize: 28,
@@ -54,45 +55,20 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontWeight: '600',
     },
-    trailer: {
-        width: '100%',
-        height: 220,
-        marginTop: 16,
-        borderRadius: 12,
-        overflow: 'hidden',
-},
-    trailerButton: {
-        width: '100%',
-        backgroundColor: '#d32f2f',
-        paddingVertical: 14,
-        borderRadius: 10,
-        marginTop: 8,
-        alignItems: 'center',
-    },
-    trailerButtonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: '700',
-    },
-    genreContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        marginBottom: 18,
-    },
-   genreTag: {
-       backgroundColor: '#f1f1f1',
-       paddingHorizontal: 12,
-       paddingVertical: 7,
-       borderRadius: 20,
-       margin: 4,
+    sectionTitle: {
+        color: '#FFFFFF',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginTop: 24,
+        marginBottom: 12,
     },
 
-   genreText: {
-      fontSize: 13,
-      fontWeight: '600',
-      color: '#555',
-},
+    trailer: {
+        height: 240,
+        width: '100%',
+        backgroundColor: '#000000',
+        marginBottom: 20,
+    },
 });
 
 export default styles;

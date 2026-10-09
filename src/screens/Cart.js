@@ -1,4 +1,5 @@
 import { Text, View, FlatList, Image, Pressable} from 'react-native';
+import ScreenBackground from '../components/ScreenBackground';
 import {useDispatch, useSelector} from 'react-redux';
 import {increaseQuantity, decreaseQuantity, removeFromCart} from '../store/cartSlice';
 import styles from '../styles/Cart';
@@ -11,6 +12,7 @@ export default function Cart() {
     return total + item.price * item.quantity;
     }, 0);
     return (
+        <ScreenBackground>
         <View style={styles.container}>
         <Text style={styles.title} >Your Cart</Text>
 
@@ -62,6 +64,7 @@ export default function Cart() {
             <Text style={styles.totalPrice}>{totalPrice}</Text>
         </View>
         </View>
+        </ScreenBackground>
     );
 }
        

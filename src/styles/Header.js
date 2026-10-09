@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
     paddingTop: 16,
     paddingBottom: 12,
     paddingHorizontal: 16,
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: 48,
-    backgroundColor: '#f7f7f7',
+    backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: '#e5e5e5',
     borderRadius: 12,
