@@ -1,8 +1,8 @@
 
-import { Text, View, Image, Button, ScrollView } from 'react-native';
+import { Text, View, Image, Button, ScrollView, Linking} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { WebView } from 'react-native-webview';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 import ScreenBackground from '../components/ScreenBackground';
 import styles from '../styles/Detail';
@@ -116,26 +116,26 @@ export default function Detail({ route }) {
 
             <Text style={styles.sectionTitle}>Movie Trailer</Text>
 
-            {trailerKey ? (
-              <WebView
-                source={{
-                  uri: `https://www.youtube.com/embed/${trailerKey}`,
-                }}
-                style={styles.trailer}
-                javaScriptEnabled
-                domStorageEnabled
-                allowsFullscreenVideo
-                mediaPlaybackRequiresUserAction
-              />
+          
+           {trailerKey ? (
+            <YoutubePlayer
+              height={220}
+              play={false}
+              videoId={trailerKey}
+              webViewProps={{
+              allowsFullscreenVideo: true,
+              mediaPlaybackRequiresUserAction: true,
+              }}
+             />
             ) : trailerChecked ? (
-              <Text style={styles.overview}>
-                No YouTube trailer was found for this movie.
-              </Text>
-            ) : (
-              <Text style={styles.overview}>Loading trailer...</Text>
+        <Text style={styles.overview}>
+           No YouTube trailer was found for this movie.
+        </Text>
+             ) : (
+        <Text style={styles.overview}>Loading trailer...</Text>
             )}
-          </View>
-        )}
+        </View>
+       )}
 
         <Text style={styles.description}>
           Discover cast, crew, synopsis, and more. Dive deep into the world of
