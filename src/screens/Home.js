@@ -1,4 +1,5 @@
 import { Text, FlatList, View, Button, Image, Pressable, ImageBackground } from 'react-native';
+import ScreenBackground from '../components/ScreenBackground';
 import AppHeader from '../components/AppHeader';
 import styles from '../styles/Home';
 
@@ -43,6 +44,7 @@ export default function Home({ navigation}) {
         loadMovies();
     }, []);
     return (
+      <ScreenBackground>
         <View style={styles.container}>
             <AppHeader onSearch={handleSearch} />
             {!isSearching && movies.length > 0 && (
@@ -143,7 +145,8 @@ export default function Home({ navigation}) {
         title="Go to Cart"
         onPress={() => navigation.navigate('Cart')}
         />
-        
-        </View>
+          </View>
+        </ScreenBackground>
+      
     );
     }
