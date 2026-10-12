@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 20,
         marginBottom: 6,
-        color: '#222',
+        color: '#fff',
         textAlign: 'center',
     },
     subtitle: {
@@ -20,17 +20,17 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         textAlign: 'center',
         marginBottom: 8,
-        color: '#555',
+        color: '#D1D5E0',
     },
     description: {
         fontSize: 14,
         textAlign: 'center',
-        color: '#777',
+        color: '#A8ADBD',
         lineHeight: 21,
         marginBottom: 20,
     },
     movieList: {
-        paddingBottom: 20,
+        paddingBottom: 24,
     },
     row: {
         justifyContent: 'space-between',
@@ -38,18 +38,19 @@ const styles = StyleSheet.create({
     },
     movieCard: {
         width: '48%',
-        backgroundColor: '#fff',
-        borderRadius: 14,
+        backgroundColor: 'rgba(12,14,24,0.92)',
+        borderRadius: 16,
         padding: 8,
-        marginBottom: 16,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 6,
-        elevation: 3,
+        marginBottom: 12,
+        borderWidth: 1,
+        borderColor: '#303447',
+        overflow: 'hidden',
+    
+     
     },
     movieCardPressed: {
      opacity: 0.85,
+     transform: [{ scale: 0.98 }],
    },
     movieTitle: {
         fontSize: 16,
@@ -58,36 +59,38 @@ const styles = StyleSheet.create({
         lineHeight: 21,
         minHeight: 42,
         textAlign: 'center',
-        color: '#222',
+        color: '#fff',
     },
     rating: {
         fontSize: 13,
-        color: '#666',
+        color: '#FFC857',
         marginTop: 6,
     },
     releaseDate: {
         fontSize: 12,
-        color: '#666',
-        marginTop: 2,
+        color: '#A8ADBD',
+        marginTop: 4,
     },
     price: {
         fontSize: 15,
         fontWeight: '700',
-        color: '#222',
+        color: '#FF3045',
         marginTop: 6,
     },          
     poster: {
-        width: 100 + '%',
+        width: '100%',
         height: 230,
-        borderRadius: 18,
+        borderRadius: 10,
     },
     hero: {
   width: '100%',
-  height: 260,
-  marginTop: 16,
+  height: 280,
+  marginTop: 18,
   marginBottom: 24,
-  borderRadius: 16,
+  borderRadius: 20,
   overflow: 'hidden',
+  borderColor: '#303447',
+  backgroundColor:'#10121D',
 },
 
 heroImage: {
@@ -96,64 +99,79 @@ heroImage: {
 },
 
 heroImageStyle: {
-  borderRadius: 16,
+  borderRadius: 20,
 },
 
 heroOverlay: {
   flex: 1,
   justifyContent: 'flex-end',
   padding: 20,
-  backgroundColor: 'rgba(0, 0, 0, 0.45)',
+  backgroundColor: 'rgba(0, 0, 0, 0.48)',
 },
 
 heroLabel: {
-  fontSize: 12,
-  fontWeight: '700',
-  letterSpacing: 1.5,
-  color: '#e8c88a',
-  marginBottom: 6,
+  alignSelf: 'flex-start',
+  fontSize: 11,
+  fontWeight: '800',
+  letterSpacing: 1.4,
+  color: '#fff',
+  backgroundColor: '#E50926',
+  paddingHorizontal: 12,
+  paddingVertical:6,
+  borderRadius: 20,
+  overflow: 'hidden',
+  marginBottom: 10,
 },
 
 heroTitle: {
   fontSize: 28,
   fontWeight: 'bold',
   color: '#fff',
-  marginBottom: 6,
+  marginBottom: 8,
 },
 
 heroRating: {
   fontSize: 14,
+  fontWeight: '800',
   color: '#fff',
-  marginBottom: 12,
+  marginBottom: 14,
 },
 
 heroButton: {
   alignSelf: 'flex-start',
-  backgroundColor: '#fff',
-  color: '#222',
-  paddingHorizontal: 16,
-  paddingVertical: 9,
-  borderRadius: 20,
+  backgroundColor: '#F20D32',
+  color: '#fff',
+  paddingHorizontal: 18,
+  paddingVertical: 11,
+  borderRadius: 24,
+  overflow: 'hidden',
   fontSize: 14,
-  fontWeight: '600',
+  fontWeight: '700',
 },
 sectionHeader: {
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
   marginBottom: 14,
+  marginTop: 4,
 },
 
 sectionTitle: {
   fontSize: 22,
-  fontWeight: '700',
-  color: '#222',
+  fontWeight: '800',
+  color: '#fff',
 },
 
 seeAll: {
   fontSize: 14,
   fontWeight: '600',
-  color: '#777',
+  color: '#C3C7D5',
+},
+noResults: {
+  color: '#D1D5E0',
+  fontSize: 15,
+  textAlign: 'center',
+  marginVertical: 24,
 },
 });
 
