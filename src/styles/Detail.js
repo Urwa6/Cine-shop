@@ -69,6 +69,56 @@ const styles = StyleSheet.create({
         backgroundColor: '#000000',
         marginBottom: 20,
     },
+
+    castList: {
+        paddingVertical: 8,
+        paddingRight: 8,
+    },
+
+    castCard: {
+        width: 100,
+        marginRight: 14,
+        alignItems: 'center',
+    },
+
+    castPhoto: {
+       width: 88,
+       height: 88,
+       borderRadius: 44,
+       backgroundColor: '#242430',
+       marginBottom: 8,
+    },
+
+    castPhotoPlaceholder: {
+       width: 88,
+       height: 88,
+       borderRadius: 44,
+       backgroundColor: '#242430',
+       alignItems: 'center',
+       justifyContent: 'center',
+       marginBottom: 8,
+},
+
+castPlaceholderText: {
+  color: '#A1A1AE',
+  fontSize: 24,
+  fontWeight: '700',
+},
+
+castName: {
+  color: '#FFFFFF',
+  fontSize: 13,
+  fontWeight: '600',
+  textAlign: 'center',
+  marginBottom: 4,
+},
+
+castCharacter: {
+  color: '#A1A1AE',
+  fontSize: 12,
+  textAlign: 'center',
+},
+
 });
 
 export default styles;
