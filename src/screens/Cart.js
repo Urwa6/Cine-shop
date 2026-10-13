@@ -21,6 +21,7 @@ export default function Cart() {
         </Text>
 
         <FlatList
+        style= {styles.list}
         data={items}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
