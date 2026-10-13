@@ -1,5 +1,5 @@
 
-import {Text,FlatList,View,Button,Image,Pressable,ImageBackground, Dimensions,} from 'react-native';
+import {Text,FlatList,View,Image,Pressable,ImageBackground, Dimensions,} from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 
 import ScreenBackground from '../components/ScreenBackground';
@@ -238,25 +238,6 @@ export default function Home({ navigation }) {
                   No movies found.
                 </Text>
               )}
-            </View>
-          }
-          ListFooterComponent={
-            <View style={{ gap: 10, paddingVertical: 16 }}>
-              <Button
-                title="Go to Movie Detail"
-                onPress={() => {
-                  if (movies.length > 0) {
-                    navigation.navigate('Detail', {
-                      movieId: movies[0].id,
-                    });
-                  }
-                }}
-              />
-
-              <Button
-                title="Go to Cart"
-                onPress={() => navigation.navigate('Cart')}
-              />
             </View>
           }
         />
