@@ -54,3 +54,18 @@ export async function getMovieVideos(movieId) {
   const data = await response.json();
   return data.results;
 }
+
+
+export async function getMovieCredits(movieId) {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${TMDB_API_KEY}&language=en-US`
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch movie cast');
+  }
+
+  const data = await response.json();
+  return data.cast;
+}
+
