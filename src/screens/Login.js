@@ -36,12 +36,20 @@ export default function Login({ navigation }) {
 
       <Pressable
         style={styles.loginButton}
-        onPress={() => {}}
+        onPress={() => navigation.replace('MainTabs') }
       >
         <Text style={styles.loginButtonText}>
           Log In
         </Text>
       </Pressable>
+      <Pressable
+        style={styles.guestButton}
+        onPress={() => navigation.replace('MainTabs')}
+      >
+       <Text style={styles.guestButtonText}>
+         Continue as Guest
+       </Text>
+       </Pressable>
 
       <Text style={styles.footerText}>
         Your next movie night starts here.

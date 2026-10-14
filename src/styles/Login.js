@@ -56,6 +56,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 28,
   },
+  guestButton: {
+    borderWidth: 1,
+    borderColor: '#8064D8',
+    borderRadius: 12,
+    paddingVertical: 15,
+    alignItems: 'center',
+    marginTop: 14,
+  },
+  guestButtonText:{
+    color: '#B9A6FF',
+    fontSize: 15,
+    fontWeight: '600',
+  },
 });
 
 export default styles;
