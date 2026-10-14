@@ -1,5 +1,5 @@
+import {Text,FlatList,View,Image,Pressable,ImageBackground,Dimensions,ActivityIndicator,} from 'react-native';
 
-import {Text,FlatList,View,Image,Pressable,ImageBackground, Dimensions,} from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 
 import ScreenBackground from '../components/ScreenBackground';
@@ -15,6 +15,8 @@ export default function Home({ navigation }) {
   const [movies, setMovies] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [activeFeaturedIndex, setActiveFeaturedIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const featuredListRef = useRef(null);
 
@@ -22,47 +24,65 @@ export default function Home({ navigation }) {
     .filter((movie) => movie.backdrop_path)
     .slice(0, 5);
 
+  // Search movies or reload popular movies
   const handleSearch = async (query) => {
-    if (query.trim() === '') {
-      try {
+    setIsLoading(true);
+    setErrorMessage('');
+
+    try {
+      if (query.trim() === '') {
         const popularMovies = await getPopularMovies();
+
         setMovies(popularMovies);
         setIsSearching(false);
         setActiveFeaturedIndex(0);
+
         featuredListRef.current?.scrollToOffset({
           offset: 0,
           animated: false,
         });
-      } catch (error) {
-        console.error('Error fetching popular movies:', error);
+      } else {
+        const results = await searchMovies(query.trim());
+
+        setMovies(results);
+        setIsSearching(true);
+        setActiveFeaturedIndex(0);
       }
-
-      return;
-    }
-
-    try {
-      const results = await searchMovies(query);
-      setMovies(results);
-      setIsSearching(true);
-      setActiveFeaturedIndex(0);
     } catch (error) {
-      console.error('Error searching for movies:', error);
+      console.error('Error loading movies:', error);
+
+      setErrorMessage(
+        'Could not load movies. Please check your connection and try again.'
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  // Load popular movies when the screen opens
   useEffect(() => {
     async function loadMovies() {
+      setIsLoading(true);
+      setErrorMessage('');
+
       try {
         const popularMovies = await getPopularMovies();
         setMovies(popularMovies);
       } catch (error) {
         console.error('Error fetching popular movies:', error);
+
+        setErrorMessage(
+          'Could not load movies. Please check your connection and try again.'
+        );
+      } finally {
+        setIsLoading(false);
       }
     }
 
     loadMovies();
   }, []);
 
+  // Featured movie card
   const renderFeaturedMovie = ({ item }) => (
     <Pressable
       style={[
@@ -102,6 +122,7 @@ export default function Home({ navigation }) {
     </Pressable>
   );
 
+  // Movie card
   const renderMovie = ({ item }) => (
     <Pressable
       style={({ pressed }) => [
@@ -116,7 +137,9 @@ export default function Home({ navigation }) {
         <Image
           style={styles.poster}
           source={{
-            uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+            uri: item.poster_path
+              ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+              : undefined,
           }}
         />
 
@@ -159,81 +182,149 @@ export default function Home({ navigation }) {
             <View>
               <AppHeader onSearch={handleSearch} />
 
-              {!isSearching && featuredMovies.length > 0 && (
-                <View>
-                  <FlatList
-                    ref={featuredListRef}
-                    horizontal
-                    pagingEnabled
-                    data={featuredMovies}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={renderFeaturedMovie}
-                    showsHorizontalScrollIndicator={false}
-                    nestedScrollEnabled
-                    getItemLayout={(_, index) => ({
-                      length: FEATURED_WIDTH,
-                      offset: FEATURED_WIDTH * index,
-                      index,
-                    })}
-                    onMomentumScrollEnd={(event) => {
-                      const index = Math.round(
-                        event.nativeEvent.contentOffset.x /
-                          FEATURED_WIDTH
-                      );
+              {/* Loading indicator */}
+              {isLoading && (
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingVertical: 30,
+                  }}
+                >
+                  <ActivityIndicator size="large" color="#B9A6FF" />
 
-                      setActiveFeaturedIndex(index);
-                    }}
-                  />
-
-                  <View
+                  <Text
                     style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      gap: 8,
+                      color: '#FFFFFF',
                       marginTop: 12,
-                      marginBottom: 20,
                     }}
                   >
-                    {featuredMovies.map((movie, index) => (
-                      <Pressable
-                        key={movie.id}
-                        accessibilityRole="button"
-                        accessibilityLabel={`Featured movie ${index + 1}`}
-                        onPress={() => {
-                          setActiveFeaturedIndex(index);
-                          featuredListRef.current?.scrollToIndex({
-                            index,
-                            animated: true,
-                          });
-                        }}
-                        style={{
-                          width:
-                            activeFeaturedIndex === index ? 20 : 7,
-                          height: 7,
-                          borderRadius: 5,
-                          backgroundColor:
-                            activeFeaturedIndex === index
-                              ? '#F20D32'
-                              : '#666879',
-                        }}
-                      />
-                    ))}
-                  </View>
+                    Loading movies...
+                  </Text>
                 </View>
               )}
 
+              {/* Error message */}
+              {!isLoading && errorMessage !== '' && (
+                <View
+                  style={{
+                    alignItems: 'center',
+                    paddingHorizontal: 20,
+                    paddingVertical: 24,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: '#FF7B86',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {errorMessage}
+                  </Text>
+
+                  <Pressable
+                    onPress={() => handleSearch('')}
+                    style={{
+                      marginTop: 14,
+                      paddingHorizontal: 20,
+                      paddingVertical: 10,
+                      borderRadius: 8,
+                      borderWidth: 1,
+                      borderColor: '#8064D8',
+                    }}
+                  >
+                    <Text style={{ color: '#FFFFFF' }}>
+                      Try again
+                    </Text>
+                  </Pressable>
+                </View>
+              )}
+
+              {/* Featured movies */}
+              {!isLoading &&
+                !errorMessage &&
+                !isSearching &&
+                featuredMovies.length > 0 && (
+                  <View>
+                    <FlatList
+                      ref={featuredListRef}
+                      horizontal
+                      pagingEnabled
+                      data={featuredMovies}
+                      keyExtractor={(item) => item.id.toString()}
+                      renderItem={renderFeaturedMovie}
+                      showsHorizontalScrollIndicator={false}
+                      nestedScrollEnabled
+                      getItemLayout={(_, index) => ({
+                        length: FEATURED_WIDTH,
+                        offset: FEATURED_WIDTH * index,
+                        index,
+                      })}
+                      onMomentumScrollEnd={(event) => {
+                        const index = Math.round(
+                          event.nativeEvent.contentOffset.x /
+                            FEATURED_WIDTH
+                        );
+
+                        setActiveFeaturedIndex(index);
+                      }}
+                    />
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        gap: 8,
+                        marginTop: 12,
+                        marginBottom: 20,
+                      }}
+                    >
+                      {featuredMovies.map((movie, index) => (
+                        <Pressable
+                          key={movie.id}
+                          accessibilityRole="button"
+                          accessibilityLabel={`Featured movie ${index + 1}`}
+                          onPress={() => {
+                            setActiveFeaturedIndex(index);
+
+                            featuredListRef.current?.scrollToIndex({
+                              index,
+                              animated: true,
+                            });
+                          }}
+                          style={{
+                            width:
+                              activeFeaturedIndex === index ? 20 : 7,
+                            height: 7,
+                            borderRadius: 5,
+                            backgroundColor:
+                              activeFeaturedIndex === index
+                                ? '#F20D32'
+                                : '#666879',
+                          }}
+                        />
+                      ))}
+                    </View>
+                  </View>
+                )}
+
+              {/* Section title */}
               <View style={styles.sectionHeader}>
                 <Text style={styles.sectionTitle}>
                   {isSearching ? 'Search Results' : 'Popular Movies'}
                 </Text>
               </View>
 
-              {isSearching && movies.length === 0 && (
-                <Text style={styles.noResults}>
-                  No movies found.
-                </Text>
-              )}
+              {/* Empty search results */}
+              {!isLoading &&
+                !errorMessage &&
+                isSearching &&
+                movies.length === 0 && (
+                  <Text style={styles.noResults}>
+                    No movies found.
+                  </Text>
+                )}
             </View>
           }
         />
@@ -241,3 +332,5 @@ export default function Home({ navigation }) {
     </ScreenBackground>
   );
 }
+
+
