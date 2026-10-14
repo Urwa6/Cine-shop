@@ -12,7 +12,10 @@ import { store, persistor } from "./src/store/store";
 import Home from "./src/screens/Home";
 import Detail from "./src/screens/Detail";
 import Cart from "./src/screens/Cart";
+import Login from "./src/screens/Login";
+import Profile from "./src/screens/Profile";
 
+console.log("Login component:",Login);
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -36,7 +39,9 @@ function MainTabs() {
 
           if (route.name === "Home") {
             iconName = focused ? "home" : "home-outline";
-          } else if (route.name === "Cart") {
+          } else if (route.name === "Profile"){
+            iconName = focused ? "person" : "person-outline"
+          }else if (route.name === "Cart") {
             iconName = focused ? "cart" : "cart-outline";
           }
 
@@ -57,6 +62,12 @@ function MainTabs() {
       />
 
       <Tab.Screen
+      name="Profile"
+      component={Profile}
+      options={{title: 'Profile'}}
+      />
+
+      <Tab.Screen
         name="Cart"
         component={Cart}
         options={{ title: "Shopping Cart" }}
@@ -73,6 +84,13 @@ export default function App() {
     <PersistGate loading={null} persistor={persistor}>
     <NavigationContainer>
       <Stack.Navigator>
+
+        <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{headerShown: false}}
+        />
+
         <Stack.Screen
           name="MainTabs"
           component={MainTabs}
