@@ -132,6 +132,14 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
   },
 
+  genre: {
+    color: '#B9A6FF',
+    fontSize: 14,
+    fontWeight: '500',
+    marginTop: 6,
+    marginBottom: 8,
+  },
+
   overview: {
     fontSize: 15,
     textAlign: 'left',

@@ -232,6 +232,11 @@ export default function Detail({ route }) {
             <Text style={styles.movieTitle}>
               {movie.title}
             </Text>
+            {movie.genres?.length > 0 &&(
+              <Text style={styles.genre}>
+                {movie.genres.map((genre) => genre.name).join(' • ')}
+              </Text>
+            )}
 
             <Text style={styles.heroRating}>
               {'⭐ '}

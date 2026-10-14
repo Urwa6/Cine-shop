@@ -227,10 +227,6 @@ export default function Home({ navigation }) {
                 <Text style={styles.sectionTitle}>
                   {isSearching ? 'Search Results' : 'Popular Movies'}
                 </Text>
-
-                {!isSearching && (
-                  <Text style={styles.seeAll}>See All</Text>
-                )}
               </View>
 
               {isSearching && movies.length === 0 && (
