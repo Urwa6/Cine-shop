@@ -12,7 +12,9 @@ import { store, persistor } from "./src/store/store";
 import Home from "./src/screens/Home";
 import Detail from "./src/screens/Detail";
 import Cart from "./src/screens/Cart";
+import Login from "./src/screens/Login";
 
+console.log("Login component:",Login);
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -73,6 +75,13 @@ export default function App() {
     <PersistGate loading={null} persistor={persistor}>
     <NavigationContainer>
       <Stack.Navigator>
+
+        <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{headerShown: false}}
+        />
+
         <Stack.Screen
           name="MainTabs"
           component={MainTabs}
