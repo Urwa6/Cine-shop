@@ -13,6 +13,7 @@ import Home from "./src/screens/Home";
 import Detail from "./src/screens/Detail";
 import Cart from "./src/screens/Cart";
 import Login from "./src/screens/Login";
+import Profile from "./src/screens/Profile";
 
 console.log("Login component:",Login);
 const Stack = createNativeStackNavigator();
@@ -38,7 +39,9 @@ function MainTabs() {
 
           if (route.name === "Home") {
             iconName = focused ? "home" : "home-outline";
-          } else if (route.name === "Cart") {
+          } else if (route.name === "Profile"){
+            iconName = focused ? "person" : "person-outline"
+          }else if (route.name === "Cart") {
             iconName = focused ? "cart" : "cart-outline";
           }
 
@@ -56,6 +59,12 @@ function MainTabs() {
         name="Home"
         component={Home}
         options={{ title: "Cine-shop" }}
+      />
+
+      <Tab.Screen
+      name="Profile"
+      component={Profile}
+      options={{title: 'Profile'}}
       />
 
       <Tab.Screen

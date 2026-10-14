@@ -15,8 +15,8 @@ const bottomTabs= {
 
     
     },
-    tabBarActiveTintColor: "#FF1744",
-    tabBarInactiveTintColor: "rgba(255,255,255,0.65)",
+    tabBarActiveTintColor: "#B9A6FF",
+    tabBarInactiveTintColor: "#9295A5",
     tabBarLabelStyle: {
     fontSize: 11,
     fontWeight: "600",
