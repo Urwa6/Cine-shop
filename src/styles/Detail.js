@@ -322,6 +322,15 @@ merchButtonText: {
   fontWeight: '600',
 },
 
+merchImagePlaceholder: {
+  width: 90,
+  height: 110,
+  borderRadius: 10,
+  backgroundColor: '#20202C',
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+
 });
 
 export default styles;

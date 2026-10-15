@@ -5,16 +5,4 @@ export const merchandise = [
     price: 99,
     imageType: 'movie',
   },
-  {
-    id: 'merch-figure-1',
-    name: 'Collectible Figure',
-    price: 249,
-    imageType: 'figure',
-  },
-  {
-    id: 'merch-shirt-1',
-    name: 'Movie T-shirt',
-    price: 199,
-    imageType: 'shirt',
-  },
 ];

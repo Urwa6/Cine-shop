@@ -2,59 +2,39 @@ import {Text,View,FlatList,Image,Pressable,} from 'react-native';
 import ScreenBackground from '../components/ScreenBackground';
 import { useDispatch, useSelector } from 'react-redux';
 import {increaseQuantity,decreaseQuantity,removeFromCart} from '../store/cartSlice';
-
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/Cart';
 
 export default function Cart() {
   const dispatch = useDispatch();
 
-  const items = useSelector((state) => state.cart.items);
+  const items = useSelector((state) => state.cart.items)
+  console.log('Cart items:', items);
+
 
   const totalPrice = items.reduce((total, item) => {
     return total + item.price * item.quantity;
   }, 0);
 
+
   const renderProductImage = (item) => {
-    if (
-      item.productType === 'merchandise' &&
-      item.id.includes('shirt')
-    ) {
-      return (
-        <View style={styles.posterPlaceholder}>
-          <MaterialCommunityIcons
-            name="tshirt-crew"
-            size={58}
-            color="#B9A6FF"
-          />
-        </View>
-      );
-    }
+  const imageUri =
+    item.image ||
+    (item.poster_path
+      ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+      : null);
 
-    if (
-      item.productType === 'merchandise' &&
-      item.id.includes('figure')
-    ) {
-      return (
-        <View style={styles.posterPlaceholder}>
-          <MaterialCommunityIcons
-            name="robot"
-            size={58}
-            color="#B9A6FF"
-          />
-        </View>
-      );
-    }
+  if (!imageUri) {
+    return <View style={styles.posterPlaceholder} />;
+  }
 
-    return (
-      <Image
-        style={styles.poster}
-        source={{
-          uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
-        }}
-      />
-    );
-  };
+  return (
+    <Image
+      style={styles.poster}
+      source={{ uri: imageUri }}
+      resizeMode="contain"
+    />
+  );
+};
 
   return (
     <ScreenBackground>

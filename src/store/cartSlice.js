@@ -19,6 +19,7 @@ const cartSlice = createSlice({
          state.items.push({ ...action.payload, quantity: 1 });
          
          }
+
         },
 
         increaseQuantity: (state, action) => {
@@ -45,6 +46,14 @@ const cartSlice = createSlice({
         (item) => item.id !== action.payload
          );
        },
+       // Remove old T-shirts and figures
+       removeOldMerchandise: (state) => {
+       state.items = state.items.filter(
+       (item) =>
+        !item.id.startsWith('merch-figure-') &&
+        !item.id.startsWith('merch-shirt-')
+         ); 
+       },
     },
 });
         
@@ -54,6 +63,7 @@ export const {
     increaseQuantity,
     decreaseQuantity,
     removeFromCart, 
+    removeOldMerchandise,
  } = cartSlice.actions;
 
 export default cartSlice.reducer;

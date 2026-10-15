@@ -167,27 +167,24 @@ export default function Detail({ route }) {
     setAddedToCart(true);
   }
 
-  // Add a merchandise product to the cart
+  // Add the current movie's poster to the cart
   function handleAddMerchandiseToCart(product) {
-    if (!movie) return;
-
-    const productImage =
-      product.imageType === 'movie' && movie.poster_path
-        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-        : null;
+    if (!movie?.poster_path) return;
 
     dispatch(
       addToCart({
-        id: product.id,
+        id: `${product.id}-${movie.id}`,
         title: `${movie.title} - ${product.name}`,
         price: product.price,
-        image: productImage,
+        image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         poster_path: movie.poster_path,
+        movieId: movie.id,
         productType: 'merchandise',
       })
     );
   }
 
+  // Loading state
   if (movieLoading) {
     return (
       <ScreenBackground>
@@ -196,6 +193,7 @@ export default function Detail({ route }) {
             size="large"
             color={styles.loadingIndicator.color}
           />
+
           <Text style={styles.loadingText}>
             Loading movie details...
           </Text>
@@ -204,6 +202,7 @@ export default function Detail({ route }) {
     );
   }
 
+  // Error state
   if (movieError || !movie) {
     return (
       <ScreenBackground>
@@ -261,7 +260,9 @@ export default function Detail({ route }) {
 
             {movie.genres?.length > 0 && (
               <Text style={styles.genre}>
-                {movie.genres.map((genre) => genre.name).join(' • ')}
+                {movie.genres
+                  .map((genre) => genre.name)
+                  .join(' • ')}
               </Text>
             )}
 
@@ -379,6 +380,7 @@ export default function Detail({ route }) {
                 size="small"
                 color={styles.loadingIndicator.color}
               />
+
               <Text style={styles.trailerMessageText}>
                 Loading trailer...
               </Text>
@@ -404,10 +406,10 @@ export default function Detail({ route }) {
           )}
         </View>
 
-        {/* Merchandise products */}
+        {/* Movie posters only */}
         <View style={styles.merchSection}>
           <Text style={styles.sectionTitle}>
-            Movie Merchandise
+            Movie Posters
           </Text>
 
           <Text style={styles.merchDescription}>
@@ -420,13 +422,9 @@ export default function Detail({ route }) {
               style={styles.merchCard}
             >
               <Image
-                source={
-                  product.imageType === 'movie' && movie.poster_path
-                    ? {
-                        uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-                      }
-                    : require('../../assets/Logo.png')
-                }
+                source={{
+                  uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                }}
                 style={styles.merchImage}
                 resizeMode="contain"
               />
@@ -442,11 +440,13 @@ export default function Detail({ route }) {
 
                 <Pressable
                   style={styles.merchButton}
-                  onPress={() => handleAddMerchandiseToCart(product)}
+                  onPress={() =>
+                    handleAddMerchandiseToCart(product)
+                  }
                   accessibilityRole="button"
                 >
                   <Text style={styles.merchButtonText}>
-                    Add to Cart
+                    Add Poster
                   </Text>
                 </Pressable>
               </View>
@@ -454,6 +454,7 @@ export default function Detail({ route }) {
           ))}
         </View>
 
+        {/* Footer description */}
         <Text style={styles.description}>
           Discover cast, synopsis, and trailers. Dive deeper
           into the world of cinema with Cine Shop!
