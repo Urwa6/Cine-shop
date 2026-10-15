@@ -115,6 +115,14 @@ const styles = StyleSheet.create({
     list: {
         flex: 1,
     },
+    posterPlaceholder: {
+        width: 90,
+        height: 130,
+        borderRadius: 10,
+        backgroundColor: '#20202C',
+        alignItems: 'center',
+        justifyContent: 'center',
+},    
 });
 
 export default styles;

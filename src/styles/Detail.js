@@ -256,6 +256,81 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 10,
   },
+
+merchSection: {
+  marginTop: 28,
+  marginBottom: 24,
+},
+
+merchDescription: {
+  fontSize: 14,
+  color: '#A8A8BC',
+  marginTop: 8,
+  marginBottom: 16,
+  lineHeight: 21,
+},
+
+merchCard: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: 14,
+  marginBottom: 12,
+  backgroundColor: 'rgba(255, 255, 255, 0.06)',
+  borderWidth: 1,
+  borderColor: 'rgba(255, 255, 255, 0.10)',
+  borderRadius: 14,
+},
+
+merchImage: {
+  width: 90,
+  height: 120,
+  borderRadius: 10,
+  backgroundColor: '#20202C',
+},
+
+merchInfo: {
+  flex: 1,
+  marginLeft: 14,
+  justifyContent: 'center',
+},
+
+merchName: {
+  fontSize: 16,
+  fontWeight: 'bold',
+  color: '#fff',
+  marginBottom: 8,
+},
+
+merchPrice: {
+  fontSize: 14,
+  fontWeight: '600',
+  color: '#B9A6FF',
+  marginBottom: 12,
+},
+
+merchButton: {
+  alignSelf: 'flex-start',
+  paddingVertical: 9,
+  paddingHorizontal: 14,
+  backgroundColor: '#8064D8',
+  borderRadius: 9,
+},
+
+merchButtonText: {
+  color: '#fff',
+  fontSize: 13,
+  fontWeight: '600',
+},
+
+merchImagePlaceholder: {
+  width: 90,
+  height: 110,
+  borderRadius: 10,
+  backgroundColor: '#20202C',
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+
 });
 
 export default styles;
