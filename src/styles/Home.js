@@ -173,7 +173,38 @@ const styles = StyleSheet.create({
       fontSize: 15,
       textAlign: 'center',
       marginVertical: 24,
-},
+     },
+    genreList: {
+      paddingTop: 16,
+      paddingBottom: 8,
+      gap: 10,
+    },
+
+    genreTab: {
+      paddingHorizontal: 18,
+      paddingVertical: 10,
+      borderRadius: 22,
+      backgroundColor: 'rgba(255, 255, 255, 0.07)',
+      borderWidth: 1,
+      borderColor: 'rgba(255, 255, 255, 0.12)',
+    },
+
+    genreTabActive: {
+      backgroundColor: '#8064D8',
+      borderColor: '#8064D8',
+    },
+
+    genreText: {
+      color: '#C2C2D0',
+      fontSize: 14,
+      fontWeight: '600',
+    },
+
+    genreTextActive: {
+      color: '#fff',
+    },
+
+
 });
 
 export default styles;
