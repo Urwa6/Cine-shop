@@ -1,11 +1,10 @@
-import {Text,FlatList,View,Image,Pressable,ImageBackground,Dimensions,ActivityIndicator,} from 'react-native';
-
+import {Text,FlatList,View,Image,Pressable,ImageBackground,Dimensions,ActivityIndicator, ScrollView} from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 
 import ScreenBackground from '../components/ScreenBackground';
 import AppHeader from '../components/AppHeader';
 import styles from '../styles/Home';
-import { getPopularMovies, searchMovies } from '../api/tmdb';
+import { getPopularMovies, searchMovies, getMoviesByGenre } from '../api/tmdb';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const HORIZONTAL_PADDING = 16;
@@ -17,13 +16,48 @@ export default function Home({ navigation }) {
   const [activeFeaturedIndex, setActiveFeaturedIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState(0);
+  const genres = [
+    {id:0, name:'All' },
+    { id: 28, name: 'Action' },
+    { id: 35, name: 'Comedy' },
+    { id: 27, name: 'Horror' },
+    { id: 10749, name: 'Romance' },
+    { id: 53, name: 'Thriller' },
+    { id: 16, name: 'Animation' },
+  ];
 
   const featuredListRef = useRef(null);
-
   const featuredMovies = movies
     .filter((movie) => movie.backdrop_path)
     .slice(0, 5);
 
+  const handleGenreSelect = async(genreId) => {
+    setSelectedGenre(genreId),
+    setIsLoading(true);
+    setErrorMessage('');
+    setIsSearching(false);
+    setActiveFeaturedIndex(0);
+
+    try{
+      const results=
+      genreId === 0
+      ? await getPopularMovies()
+      : await getMoviesByGenre(genreId);
+
+      setMovies(results);
+
+      featuredListRef.current?.scrollToOffset({
+        offset: 0,
+        animated: false,
+      });
+    } catch(error) {
+      console.error('Error loading genr movies:',error);
+      setErrorMessage('Could not load movies.')
+    } finally {
+      setIsLoading(false);
+    }
+  };
   // Search movies or reload popular movies
   const handleSearch = async (query) => {
     setIsLoading(true);
@@ -181,6 +215,29 @@ export default function Home({ navigation }) {
           ListHeaderComponent={
             <View>
               <AppHeader onSearch={handleSearch} />
+            
+                {!isSearching && (
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.genreList}
+                  >
+                 {genres.map((genre) => (
+                 <Pressable
+                 key={genre.id}
+                 onPress={() => handleGenreSelect(genre.id)}
+                 style={[styles.genreTab,
+                 selectedGenre === genre.id && styles.genreTabActive,
+                 ]}
+             >
+             <Text style={[styles.genreText,selectedGenre === genre.id && styles.genreTextActive,
+              ]}
+             >
+              {genre.name} </Text>
+             </Pressable>
+            ))}
+              </ScrollView>
+             )}
 
               {/* Loading indicator */}
               {isLoading && (

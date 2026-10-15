@@ -69,3 +69,15 @@ export async function getMovieCredits(movieId) {
   return data.cast;
 }
 
+export async function getMoviesByGenre(genreId) {
+  const response = await fetch (
+    `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&with_genres=${genreId}&sort_by=popularity.desc`
+  );
+  if (!response.ok) {
+    throw new Error('Failed fetch movies by genre.');
+  }
+  const data = await response.json();
+  return data.results;
+  
+}
+
