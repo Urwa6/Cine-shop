@@ -330,6 +330,18 @@ merchImagePlaceholder: {
   alignItems: 'center',
   justifyContent: 'center',
 },
+backButton: {
+  position: 'absolute',
+  top: 55,
+  left: 20,
+  zIndex: 100,
+  width: 44,
+  height: 44,
+  borderRadius: 22,
+  backgroundColor: 'rgba(0, 0, 0, 0.65)',
+  alignItems: 'center',
+  justifyContent: 'center',
+},
 
 });
 

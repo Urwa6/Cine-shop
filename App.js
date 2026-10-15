@@ -58,19 +58,25 @@ function MainTabs() {
       <Tab.Screen
         name="Home"
         component={Home}
-        options={{ title: "Cine-shop" }}
+        options={{ title: "Cine-shop",
+          headerShown: false,
+         }}
       />
 
       <Tab.Screen
       name="Profile"
       component={Profile}
-      options={{title: 'Profile'}}
+      options={{title: 'Profile',
+        headerShown: false,
+      }}
       />
 
       <Tab.Screen
         name="Cart"
         component={Cart}
-        options={{ title: "Shopping Cart" }}
+        options={{ title: "Shopping Cart",
+          headerShown: false,
+         }}
       />
     </Tab.Navigator>
   );
@@ -100,7 +106,7 @@ export default function App() {
         <Stack.Screen
           name="Detail"
           component={Detail}
-          options={{ title: "Movie Detail" }}
+          options={{ headerShown: false}}
         />
 
       </Stack.Navigator>
