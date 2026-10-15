@@ -182,10 +182,7 @@ export default function Detail({ route }) {
         title: `${movie.title} - ${product.name}`,
         price: product.price,
         image: productImage,
-        poster_path:
-          product.imageType === 'movie'
-            ? movie.poster_path
-            : null,
+        poster_path: movie.poster_path,
         productType: 'merchandise',
       })
     );
