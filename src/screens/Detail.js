@@ -7,8 +7,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import ScreenBackground from '../components/ScreenBackground';
 import styles from '../styles/Detail';
 
-import {getMovieDetails,getMovieVideos,getMovieCredits,} from '../api/tmdb';
+import {getMovieDetails,getMovieVideos,getMovieCredits} from '../api/tmdb';
 import { addToCart } from '../store/cartSlice';
+import { merchandise } from '../data/merchandise';
 
 const { height: screenHeight } = Dimensions.get('window');
 const HERO_HEIGHT = screenHeight * 0.58;
@@ -103,22 +104,23 @@ export default function Detail({ route }) {
     async function loadTrailer() {
       try {
         const videos = await getMovieVideos(movieId);
+
         const trailer =
           videos.find(
-            video =>
+            (video) =>
               video.site === 'YouTube' &&
               video.type === 'Trailer' &&
               video.official &&
               video.key
           ) ||
           videos.find(
-            video =>
+            (video) =>
               video.site === 'YouTube' &&
               video.type === 'Trailer' &&
               video.key
           ) ||
           videos.find(
-            video =>
+            (video) =>
               video.site === 'YouTube' &&
               video.type === 'Teaser' &&
               video.key
@@ -149,6 +151,7 @@ export default function Detail({ route }) {
     };
   }, [movieId]);
 
+  // Add the selected movie to the cart
   function handleAddToCart() {
     if (!movie) return;
 
@@ -162,6 +165,30 @@ export default function Detail({ route }) {
     );
 
     setAddedToCart(true);
+  }
+
+  // Add a merchandise product to the cart
+  function handleAddMerchandiseToCart(product) {
+    if (!movie) return;
+
+    const productImage =
+      product.imageType === 'movie' && movie.poster_path
+        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+        : null;
+
+    dispatch(
+      addToCart({
+        id: product.id,
+        title: `${movie.title} - ${product.name}`,
+        price: product.price,
+        image: productImage,
+        poster_path:
+          product.imageType === 'movie'
+            ? movie.poster_path
+            : null,
+        productType: 'merchandise',
+      })
+    );
   }
 
   if (movieLoading) {
@@ -200,39 +227,42 @@ export default function Detail({ route }) {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.hero}>
-      
+        {/* Movie hero */}
+        <View style={[styles.hero, { height: HERO_HEIGHT }]}>
+          <Image
+            source={{
+              uri: `https://image.tmdb.org/t/p/original${movie.poster_path}`,
+            }}
+            style={styles.heroBackdrop}
+            resizeMode="cover"
+            blurRadius={18}
+          />
+
+          <View style={styles.heroBackdropTint} />
+
+          <View style={styles.heroPosterContainer}>
             <Image
               source={{
-                uri: `https://image.tmdb.org/t/p/original${movie.poster_path}`,
+                uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
               }}
-              style= {styles.heroBackdrop}
-              resizeMode='cover'
-              blurRadius={18}
-            />
-            <View style= {styles.heroBackdropTint} />
-          <View style={styles.heroPosterContainer}>
-          <Image
-           source={{
-           uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-            }}
               style={styles.heroPoster}
               resizeMode="contain"
             />
-           </View>
+          </View>
 
           <LinearGradient
             colors={styles.heroGradientColors}
             locations={[0.25, 0.65, 1]}
             style={styles.heroOverlay}
-            pointerEvents='none'
+            pointerEvents="none"
           />
 
           <View style={styles.heroInfo}>
             <Text style={styles.movieTitle}>
               {movie.title}
             </Text>
-            {movie.genres?.length > 0 &&(
+
+            {movie.genres?.length > 0 && (
               <Text style={styles.genre}>
                 {movie.genres.map((genre) => genre.name).join(' • ')}
               </Text>
@@ -247,6 +277,7 @@ export default function Detail({ route }) {
           </View>
         </View>
 
+        {/* Movie information */}
         <View style={styles.movieContent}>
           <Text style={styles.price}>
             {calculatePrice(movie)} SEK
@@ -264,7 +295,6 @@ export default function Detail({ route }) {
             {movie.overview || 'No description available.'}
           </Text>
 
-    
           <Pressable
             style={styles.cartButton}
             onPress={handleAddToCart}
@@ -281,6 +311,7 @@ export default function Detail({ route }) {
             </Text>
           )}
 
+          {/* Cast */}
           <Text style={styles.sectionTitle}>
             Cast
           </Text>
@@ -297,7 +328,7 @@ export default function Detail({ route }) {
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.castList}
             >
-              {cast.map(actor => (
+              {cast.map((actor) => (
                 <View
                   key={actor.credit_id || actor.id}
                   style={styles.castCard}
@@ -340,7 +371,7 @@ export default function Detail({ route }) {
             </Text>
           )}
 
-  
+          {/* Movie trailer */}
           <Text style={styles.sectionTitle}>
             Movie Trailer
           </Text>
@@ -374,6 +405,56 @@ export default function Detail({ route }) {
                 : 'No YouTube trailer was found for this movie.'}
             </Text>
           )}
+        </View>
+
+        {/* Merchandise products */}
+        <View style={styles.merchSection}>
+          <Text style={styles.sectionTitle}>
+            Movie Merchandise
+          </Text>
+
+          <Text style={styles.merchDescription}>
+            Take a piece of your favourite movie home.
+          </Text>
+
+          {merchandise.map((product) => (
+            <View
+              key={product.id}
+              style={styles.merchCard}
+            >
+              <Image
+                source={
+                  product.imageType === 'movie' && movie.poster_path
+                    ? {
+                        uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                      }
+                    : require('../../assets/Logo.png')
+                }
+                style={styles.merchImage}
+                resizeMode="contain"
+              />
+
+              <View style={styles.merchInfo}>
+                <Text style={styles.merchName}>
+                  {product.name}
+                </Text>
+
+                <Text style={styles.merchPrice}>
+                  {product.price} SEK
+                </Text>
+
+                <Pressable
+                  style={styles.merchButton}
+                  onPress={() => handleAddMerchandiseToCart(product)}
+                  accessibilityRole="button"
+                >
+                  <Text style={styles.merchButtonText}>
+                    Add to Cart
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          ))}
         </View>
 
         <Text style={styles.description}>
