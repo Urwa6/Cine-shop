@@ -1,6 +1,6 @@
 import { View, Text, TextInput, Pressable } from 'react-native';
 import { useState } from 'react';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth} from '../firebase';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/Login';
@@ -9,6 +9,7 @@ export default function Login({ navigation }) {
   //Store the email and password  entered by the user 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
   // Choose between logging in and creating an account
   const [isRegistering, setIsRegistering] = useState(false);
@@ -19,28 +20,39 @@ export default function Login({ navigation }) {
   const handleAuth = async () => {
   setError('');
 
-  if (!email.trim() || !password) {
-    setError('Please enter your email and password.');
-    return;
-  }
+   if (
+    !email.trim() ||
+    !password ||
+    (isRegistering && !name.trim()) 
+    ) {
+    setError(
+      isRegistering
+        ? 'Please enter your name, email, and password.'
+        : 'Please enter your email and password.'
+    );
+   return;
+    }
 
   setLoading(true);
 
   try {
     if (isRegistering) {
-      await createUserWithEmailAndPassword(
-        auth,
-        email.trim(),
-        password
-      );
-    } else {
-      await signInWithEmailAndPassword(
-        auth,
-        email.trim(),
-        password
-      );
-    }
+    const userCredential = await createUserWithEmailAndPassword(
+     auth,
+     email.trim(),
+     password
+    );
 
+    await updateProfile(userCredential.user, {
+     displayName: name.trim(),
+     });
+     } else {
+    await signInWithEmailAndPassword(
+     auth,
+     email.trim(),
+     password
+    );
+   }
     navigation.replace('MainTabs');
   } catch (err) {
     if (err.code === 'auth/invalid-credential') {
@@ -73,6 +85,17 @@ export default function Login({ navigation }) {
       <Text style={styles.subtitle}>
         Sign in to your Cine-shop account
       </Text>
+
+      {isRegistering && (
+      <TextInput
+       style={styles.input}
+       placeholder="Your name"
+       placeholderTextColor="#9295A5"
+       autoCapitalize="words"
+       value={name}
+       onChangeText={setName}
+      />
+      )} 
 
       <TextInput
         style={styles.input}
