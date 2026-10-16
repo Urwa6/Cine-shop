@@ -1,6 +1,5 @@
 import {Text,FlatList,View,Image,Pressable,ImageBackground,Dimensions,ActivityIndicator, ScrollView} from 'react-native';
 import { useEffect, useRef, useState } from 'react';
-
 import ScreenBackground from '../components/ScreenBackground';
 import AppHeader from '../components/AppHeader';
 import styles from '../styles/Home';
@@ -215,6 +214,7 @@ export default function Home({ navigation }) {
           ListHeaderComponent={
             <View>
               <AppHeader onSearch={handleSearch} />
+   
             
                 {!isSearching && (
                   <ScrollView

@@ -9,6 +9,9 @@ const cartSlice = createSlice({
     initialState,
     // Define reducers for adding, removing, and clearing items in the cart
     reducers: {
+        setCart: (state, action) => {
+        state.items = action.payload;
+         },
         addToCart: (state, action) => {
          const existingItem = state.items.find((item) => 
             item.id === action.payload.id);
@@ -58,12 +61,7 @@ const cartSlice = createSlice({
 });
         
 
-export const { 
-    addToCart, 
-    increaseQuantity,
-    decreaseQuantity,
-    removeFromCart, 
-    removeOldMerchandise,
- } = cartSlice.actions;
+export const { setCart,addToCart, increaseQuantity,decreaseQuantity, removeFromCart, 
+    removeOldMerchandise,} = cartSlice.actions;
 
 export default cartSlice.reducer;

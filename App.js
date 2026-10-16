@@ -1,14 +1,18 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider } from "react-redux";
-import { PersistGate } from 'redux-persist/integration/react';
-//Bottom navigation
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import{BlurView} from "expo-blur";
-import bottomTabs from "./src/styles/bottomTabs";
 
-import { store, persistor } from "./src/store/store";
+import bottomTabs from "./src/styles/bottomTabs";
+import { store } from "./src/store/store";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./src/firebase";
+import { useDispatch } from "react-redux";
+import { setCart } from "./src/store/cartSlice";
+import { loadCart, saveCart } from "./src/store/cartStorage";
 import Home from "./src/screens/Home";
 import Detail from "./src/screens/Detail";
 import Cart from "./src/screens/Cart";
@@ -58,54 +62,93 @@ function MainTabs() {
       <Tab.Screen
         name="Home"
         component={Home}
-        options={{ title: "Cine-shop" }}
+        options={{ title: "Cine-shop",
+          headerShown: false,
+         }}
       />
 
       <Tab.Screen
       name="Profile"
       component={Profile}
-      options={{title: 'Profile'}}
+      options={{title: 'Profile',
+        headerShown: false,
+      }}
       />
 
       <Tab.Screen
         name="Cart"
         component={Cart}
-        options={{ title: "Shopping Cart" }}
+        options={{ title: "Shopping Cart",
+          headerShown: false,
+         }}
       />
     </Tab.Navigator>
   );
 }
+function CartSync() {
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    let isActive = true;
+    let cartReady = false;
+    let activeUserId = null;
+    let saveQueue = Promise.resolve();
 
+    const unsubscribeStore = store.subscribe(() => {
+      if (!cartReady) return;
 
+      const items = store.getState().cart.items;
+      const userId = activeUserId;
+
+      saveQueue = saveQueue.then(() => saveCart(userId, items));
+    });
+
+    const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
+      cartReady = false;
+      activeUserId = user?.uid ?? null;
+
+      const items = await loadCart(activeUserId);
+
+      if (!isActive) return;
+
+      dispatch(setCart(items));
+      cartReady = true;
+    });
+
+    return () => {
+      isActive = false;
+      unsubscribeStore();
+      unsubscribeAuth();
+    };
+  }, [dispatch]);
+
+  return null;
+}
 export default function App() {
   return (
     <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-    <NavigationContainer>
-      <Stack.Navigator>
+      <CartSync />
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+          />
 
-        <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{headerShown: false}}
-        />
+          <Stack.Screen
+            name="MainTabs"
+            component={MainTabs}
+            options={{ headerShown: false }}
+          />
 
-        <Stack.Screen
-          name="MainTabs"
-          component={MainTabs}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Detail"
-          component={Detail}
-          options={{ title: "Movie Detail" }}
-        />
-
-      </Stack.Navigator>
-    </NavigationContainer>
-    </PersistGate>
+          <Stack.Screen
+            name="Detail"
+            component={Detail}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }

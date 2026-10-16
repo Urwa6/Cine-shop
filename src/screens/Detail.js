@@ -1,5 +1,6 @@
-import {Text,View,Image,ScrollView,Dimensions,ActivityIndicator,Pressable,} from 'react-native';
+import {Text,View,Image,ScrollView,Dimensions,ActivityIndicator,Pressable} from 'react-native';
 import { useEffect, useState, useRef } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -23,7 +24,7 @@ function calculatePrice(movie) {
   return 129;
 }
 
-export default function Detail({ route }) {
+export default function Detail({ route,navigation }) {
   const { movieId } = route.params;
 
   const [movie, setMovie] = useState(null);
@@ -217,6 +218,31 @@ export default function Detail({ route }) {
 
   return (
     <ScreenBackground>
+
+      {/* Back button */}
+   <Pressable
+    onPress={() => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('MainTabs', {
+        screen: 'Home',
+      });
+     }
+    }}
+     style={styles.backButton}
+     accessibilityRole="button"
+     accessibilityLabel="Go back"
+     hitSlop={10}
+     > 
+    <Ionicons
+    name="arrow-back"
+    size={24}
+    color="#FFFFFF"
+    />
+    </Pressable>
+
+
       <ScrollView
         ref={scrollViewRef}
         contentContainerStyle={styles.container}
