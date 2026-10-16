@@ -4,33 +4,33 @@ Cine-shop is a movie-shopping mobile application developed with React Native and
 
 ## App Screenshots
 ## 📱 App Screenshots
+## 📱 App Screenshots
 
 <table>
   <tr>
     <td align="center">
-      <strong>Home Screen</strong><br/>
-      <img src="assets/screenshots/home.png" width="220" alt="Home screen"/>
+      <strong>Home</strong><br/>
+      <img src="assets/screenshots/home.png" width="180" alt="Home screen"/>
     </td>
     <td align="center">
       <strong>Movie Details</strong><br/>
-      <img src="assets/screenshots/detail.png" width="220" alt="Movie details"/>
+      <img src="assets/screenshots/detail.png" width="180" alt="Movie details screen"/>
+    </td>
+    <td align="center">
+      <strong>Search</strong><br/>
+      <img src="assets/screenshots/start.png" width="180" alt="Search screen"/>
     </td>
   </tr>
   <tr>
-    <td align="center">
-      <strong>Search Movies</strong><br/>
-      <img src="assets/screenshots/start.png" width="220" alt="Search screen"/>
-    </td>
     <td align="center">
       <strong>Profile</strong><br/>
-      <img src="assets/screenshots/profile.png" width="220" alt="Profile screen"/>
+      <img src="assets/screenshots/profile.png" width="180" alt="Profile screen"/>
     </td>
-  </tr>
-  <tr>
-    <td align="center" colspan="2">
+    <td align="center">
       <strong>Shopping Cart</strong><br/>
-      <img src="assets/screenshots/cart.png" width="220" alt="Shopping cart"/>
+      <img src="assets/screenshots/cart.png" width="180" alt="Shopping cart screen"/>
     </td>
+    <td align="center"></td>
   </tr>
 </table>
 
