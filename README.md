@@ -3,22 +3,36 @@
 Cine-shop is a movie-shopping mobile application developed with React Native and Expo. The app allows users to discover movies, explore film details, watch trailers, and manage their shopping cart through a cinematic user interface.
 
 ## App Screenshots
+## 📱 App Screenshots
 
-### Home Screen
-<img src="assets/screenshots/home.png" alt="Cine-shop home screen" width="300" />
-
-### Movie Details
-<img src="assets/screenshots/detail.png" alt="Movie details screen" width="300" />
-
-### Search Movies
-<img src="assets/screenshots/start.png" alt="Movie search screen" width="300" />
-
-### Profile
-<img src="assets/screenshots/profile.png" alt="Cine-shop profile screen" width="300" />
-
-### Shopping Cart
-<img src="assets/screenshots/cart.png" alt="Cine-shop shopping cart" width="300" />
-
+<table>
+  <tr>
+    <td align="center">
+      <strong>Home Screen</strong><br/>
+      <img src="assets/screenshots/home.png" width="220" alt="Home screen"/>
+    </td>
+    <td align="center">
+      <strong>Movie Details</strong><br/>
+      <img src="assets/screenshots/detail.png" width="220" alt="Movie details"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Search Movies</strong><br/>
+      <img src="assets/screenshots/start.png" width="220" alt="Search screen"/>
+    </td>
+    <td align="center">
+      <strong>Profile</strong><br/>
+      <img src="assets/screenshots/profile.png" width="220" alt="Profile screen"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <strong>Shopping Cart</strong><br/>
+      <img src="assets/screenshots/cart.png" width="220" alt="Shopping cart"/>
+    </td>
+  </tr>
+</table>
 
 ## Features
 
