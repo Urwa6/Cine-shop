@@ -5,19 +5,19 @@ Cine-shop is a movie-shopping mobile application developed with React Native and
 ## App Screenshots
 
 ### Home Screen
-![Cine-shop home screen](assets/screenshots/home.png)
+<img src="assets/screenshots/home.png" alt="Cine-shop home screen" width="300" />
 
 ### Movie Details
-![Movie details screen](assets/screenshots/detail.png)
+<img src="assets/screenshots/detail.png" alt="Movie details screen" width="300" />
 
 ### Search Movies
-![Movie search screen](assets/screenshots/start.png)
+<img src="assets/screenshots/start.png" alt="Movie search screen" width="300" />
 
 ### Profile
-![Cine-shop profile screen](assets/screenshots/profile.png)
+<img src="assets/screenshots/profile.png" alt="Cine-shop profile screen" width="300" />
 
 ### Shopping Cart
-![Cine-shop shopping cart](assets/screenshots/cart.png)
+<img src="assets/screenshots/cart.png" alt="Cine-shop shopping cart" width="300" />
 
 
 ## Features
